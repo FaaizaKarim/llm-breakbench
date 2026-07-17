@@ -2,7 +2,7 @@
 
 **An adversarial Python benchmark + prompt-engineering ablation for code-generation models.**
 
-24 hand-designed tasks, each hiding a classic Python trap that language models are known to fumble — mutable default arguments, closure late binding, float accumulation, iterator exhaustion, `str.strip` misuse, `lst[-0:]`, `zip` truncation, `True == 1`, exponential recursion, async result ordering, path traversal, and `eval` injection. Every model failure is classified, traced, and analyzed.
+24 hand-designed tasks, each hiding a classic Python trap that language models are known to fumble mutable default arguments, closure late binding, float accumulation, iterator exhaustion, `str.strip` misuse, `lst[-0:]`, `zip` truncation, `True == 1`, exponential recursion, async result ordering, path traversal, and `eval` injection. Every model failure is classified, traced, and analyzed.
 
 Built on top of my [llm-eval-harness](https://github.com/FaaizaKarim/llm-eval-harness) (async evaluation pipeline, sandboxed execution, failure-mode taxonomy)  BreakBench adds the adversarial task design and the prompt-ablation methodology.
 

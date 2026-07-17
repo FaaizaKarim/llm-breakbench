@@ -58,14 +58,14 @@ commentary sections are then written by hand.
 scored highest (88%). Every engineered variant scored lower: warning the model
 that a trap exists cost 5 points, a pitfall checklist cost 13, and visible
 chain-of-thought cost 21. The checklist variant even introduced regressions on
-tasks the baseline solved (`closure-001-multipliers`, `float-002-money`) —
+tasks the baseline solved (`closure-001-multipliers`, `float-002-money`) 
 evidence that stuffing the system prompt with pitfall reminders distracts an
 8B model from the task at hand. Chain-of-thought was the worst performer, and
 its failures skew heavily to `wrong_answer` (6 of 8): reasoning aloud produced
 plausible-sounding but incorrect code, and in several traces the final code
 block did not implement the reasoning that preceded it.
 
-**Three tasks resisted every prompt — capability gaps, not prompting gaps.**
+**Three tasks resisted every prompt capability gaps, not prompting gaps.**
 `iter-002-pairs` (pairing a single-use iterator), `zip-001-pad` (padding
 instead of zip's silent truncation), and `async-002-order` (asyncio.gather
 result ordering) failed under all four variants. No prompt rescued them, which
@@ -78,12 +78,12 @@ trap families are where I would invest first.
 unparseable code and never timed out except by design. This matters for
 evaluation methodology: superficial checks (does it parse? does it run?)
 would have passed most of these failures. Only behavioral test cases aimed at
-the specific trap caught them — e.g. mutating a grid cell to expose row
+the specific trap caught them e.g. mutating a grid cell to expose row
 aliasing, or feeding `__import__("os")` to expose an eval-based calculator.
 
 **Methodology note.** An early run of this grid degraded into a wall of
-generation errors partway through. The failure *pattern* — a clean first
-variant followed by uniform errors — identified it as API rate limiting
+generation errors partway through. The failure *pattern*  a clean first
+variant followed by uniform errors  identified it as API rate limiting
 rather than model failure; the runner now honors `Retry-After` headers with
 exponential backoff, and the affected combinations were re-run. Separating
 infrastructure failures from model failures is a precondition for

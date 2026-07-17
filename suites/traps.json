@@ -1,0 +1,268 @@
+[
+  {
+    "task_id": "alias-001-grid",
+    "category": "state-aliasing",
+    "difficulty": "medium",
+    "prompt": "Write a Python function `make_grid(rows, cols)` that returns a 2D grid (list of lists) of zeros with the given dimensions. Each row must be an independent list: mutating one cell must never affect another row. Return a list of lists.",
+    "entry_point": "make_grid",
+    "test_cases": [
+      { "call": "make_grid(2, 3)", "expected": [[0, 0, 0], [0, 0, 0]] },
+      { "call": "(lambda g: (g[0].__setitem__(0, 9), g[1][0])[1])(make_grid(2, 2))", "expected": 0 }
+    ]
+  },
+  {
+    "task_id": "alias-002-record",
+    "category": "state-aliasing",
+    "difficulty": "easy",
+    "prompt": "Write a Python function `record(event, log=None)` that appends `event` to `log` and returns the log list. If no log is given, start a NEW empty list each call - calls must never share state.",
+    "entry_point": "record",
+    "test_cases": [
+      { "call": "record('a')", "expected": ["a"] },
+      { "call": "record('b')", "expected": ["b"] },
+      { "call": "record('c', ['x'])", "expected": ["x", "c"] }
+    ]
+  },
+  {
+    "task_id": "alias-003-merge",
+    "category": "state-aliasing",
+    "difficulty": "medium",
+    "prompt": "Write a Python function `merge_defaults(overrides, defaults)` that returns a new dict combining both, where keys in `overrides` win. Neither input dict may be mutated.",
+    "entry_point": "merge_defaults",
+    "test_cases": [
+      { "call": "merge_defaults({'a': 1}, {'a': 0, 'b': 2})", "expected": { "a": 1, "b": 2 } },
+      { "call": "(lambda d: (merge_defaults({'a': 1}, d), d)[1])({'b': 2})", "expected": { "b": 2 } }
+    ]
+  },
+  {
+    "task_id": "closure-001-multipliers",
+    "category": "closures",
+    "difficulty": "medium",
+    "prompt": "Write a Python function `make_multipliers(ns)` that returns a list of functions, one per number in `ns`, where each function multiplies its argument by its own number. The classic loop-variable pitfall must not occur.",
+    "entry_point": "make_multipliers",
+    "test_cases": [
+      { "call": "[f(10) for f in make_multipliers([1, 2, 3])]", "expected": [10, 20, 30] }
+    ]
+  },
+  {
+    "task_id": "closure-002-counter",
+    "category": "closures",
+    "difficulty": "easy",
+    "prompt": "Write a Python function `make_counter()` that returns a function which increments an internal counter and returns its new value (1 on first call, 2 on second, and so on). Use a closure, not a class or global variable.",
+    "entry_point": "make_counter",
+    "test_cases": [
+      { "call": "(lambda c: (c(), c(), c())[-1])(make_counter())", "expected": 3 }
+    ]
+  },
+  {
+    "task_id": "float-001-safe-equal",
+    "category": "float-precision",
+    "difficulty": "easy",
+    "prompt": "Write a Python function `safe_equal(a, b)` that compares two floats for approximate equality (suitable for results of float arithmetic). It must return True for values that differ only by floating-point error and False for genuinely different values.",
+    "entry_point": "safe_equal",
+    "test_cases": [
+      { "call": "safe_equal(0.1 + 0.2, 0.3)", "expected": true },
+      { "call": "safe_equal(0.1, 0.2)", "expected": false }
+    ]
+  },
+  {
+    "task_id": "float-002-money",
+    "category": "float-precision",
+    "difficulty": "medium",
+    "prompt": "Write a Python function `money_sum(prices)` that sums a list of prices (floats in currency units) and returns the total rounded to exactly 2 decimal places, safe from float accumulation error.",
+    "entry_point": "money_sum",
+    "test_cases": [
+      { "call": "money_sum([0.1, 0.1, 0.1])", "expected": 0.3 },
+      { "call": "money_sum([1.1, 2.2])", "expected": 3.3 }
+    ]
+  },
+  {
+    "task_id": "iter-001-generator",
+    "category": "iterators",
+    "difficulty": "medium",
+    "prompt": "Write a Python function `first_two_evens(nums)` that returns a list of the first two even numbers from `nums`. It must work when `nums` is a one-shot generator, not just a list.",
+    "entry_point": "first_two_evens",
+    "test_cases": [
+      { "call": "first_two_evens(x for x in [1, 2, 3, 4, 5, 6])", "expected": [2, 4] },
+      { "call": "first_two_evens([2])", "expected": [2] }
+    ]
+  },
+  {
+    "task_id": "iter-002-pairs",
+    "category": "iterators",
+    "difficulty": "hard",
+    "prompt": "Write a Python function `pairs(it)` that takes an iterator (possibly single-use) and returns a list of consecutive pairs as two-element lists. For an iterator over [1, 2, 3] the answer is [[1, 2], [2, 3]]. Beware: zipping an iterator with itself consumes two items per pair.",
+    "entry_point": "pairs",
+    "test_cases": [
+      { "call": "pairs(iter([1, 2, 3]))", "expected": [[1, 2], [2, 3]] },
+      { "call": "pairs(iter([5]))", "expected": [] }
+    ]
+  },
+  {
+    "task_id": "str-001-suffix",
+    "category": "strings",
+    "difficulty": "medium",
+    "prompt": "Write a Python function `remove_extension(filename, ext)` that removes the suffix `ext` from `filename` only if the filename actually ends with it, and returns the result. Warning: str.strip removes a SET of characters, not a suffix.",
+    "entry_point": "remove_extension",
+    "test_cases": [
+      { "call": "remove_extension('report.txt', '.txt')", "expected": "report" },
+      { "call": "remove_extension('text.txt', '.txt')", "expected": "text" },
+      { "call": "remove_extension('notes.md', '.txt')", "expected": "notes.md" }
+    ]
+  },
+  {
+    "task_id": "str-002-overlap",
+    "category": "strings",
+    "difficulty": "medium",
+    "prompt": "Write a Python function `count_overlap(text, sub)` that counts occurrences of `sub` in `text` INCLUDING overlapping ones. Note that str.count only counts non-overlapping occurrences.",
+    "entry_point": "count_overlap",
+    "test_cases": [
+      { "call": "count_overlap('aaaa', 'aa')", "expected": 3 },
+      { "call": "count_overlap('abcabc', 'abc')", "expected": 2 }
+    ]
+  },
+  {
+    "task_id": "sort-001-multikey",
+    "category": "sorting",
+    "difficulty": "medium",
+    "prompt": "Write a Python function `sort_players(players)` where `players` is a list of [name, score] lists. Return them sorted by score DESCENDING, and for equal scores by name ASCENDING. Return a list of [name, score] lists.",
+    "entry_point": "sort_players",
+    "test_cases": [
+      { "call": "sort_players([['bob', 5], ['amy', 5], ['cy', 7]])", "expected": [["cy", 7], ["amy", 5], ["bob", 5]] }
+    ]
+  },
+  {
+    "task_id": "exc-001-parse",
+    "category": "exceptions",
+    "difficulty": "easy",
+    "prompt": "Write a Python function `parse_int(s)` that converts string `s` to an int and returns it, or returns -1 if the string is not a valid integer. Surrounding whitespace is valid; decimals are not.",
+    "entry_point": "parse_int",
+    "test_cases": [
+      { "call": "parse_int('  42 ')", "expected": 42 },
+      { "call": "parse_int('4.2')", "expected": -1 },
+      { "call": "parse_int('7')", "expected": 7 }
+    ]
+  },
+  {
+    "task_id": "exc-002-index",
+    "category": "exceptions",
+    "difficulty": "medium",
+    "prompt": "Write a Python function `attempt(values, i)` that returns `values[i]`, or the string 'missing' if index `i` is out of range. Negative indices are VALID Python indices and must work normally.",
+    "entry_point": "attempt",
+    "test_cases": [
+      { "call": "attempt([1, 2], -1)", "expected": 2 },
+      { "call": "attempt([1], 5)", "expected": "missing" },
+      { "call": "attempt([3, 4, 5], 0)", "expected": 3 }
+    ]
+  },
+  {
+    "task_id": "slice-001-lastn",
+    "category": "slicing",
+    "difficulty": "medium",
+    "prompt": "Write a Python function `last_n(lst, n)` that returns the last `n` elements of `lst` as a list. When n is 0 it must return an empty list. Warning: lst[-0:] is the whole list, not an empty one.",
+    "entry_point": "last_n",
+    "test_cases": [
+      { "call": "last_n([1, 2, 3], 2)", "expected": [2, 3] },
+      { "call": "last_n([1, 2, 3], 0)", "expected": [] },
+      { "call": "last_n([1], 5)", "expected": [1] }
+    ]
+  },
+  {
+    "task_id": "slice-002-chunk",
+    "category": "slicing",
+    "difficulty": "easy",
+    "prompt": "Write a Python function `chunk(lst, size)` that splits `lst` into consecutive chunks of length `size`; the final chunk may be shorter. Return a list of lists.",
+    "entry_point": "chunk",
+    "test_cases": [
+      { "call": "chunk([1, 2, 3, 4, 5], 2)", "expected": [[1, 2], [3, 4], [5]] },
+      { "call": "chunk([], 3)", "expected": [] }
+    ]
+  },
+  {
+    "task_id": "type-001-strict-true",
+    "category": "type-coercion",
+    "difficulty": "medium",
+    "prompt": "Write a Python function `truthy_count(values)` that counts how many elements are EXACTLY the boolean True - not 1, not 1.0, not other truthy values. Remember that in Python, True == 1.",
+    "entry_point": "truthy_count",
+    "test_cases": [
+      { "call": "truthy_count([True, 1, 1.0, 'a'])", "expected": 1 },
+      { "call": "truthy_count([False, 0, True, True])", "expected": 2 }
+    ]
+  },
+  {
+    "task_id": "zip-001-pad",
+    "category": "iteration",
+    "difficulty": "medium",
+    "prompt": "Write a Python function `pad_zip(a, b)` that pairs elements of two lists into two-element lists, padding the shorter list with None so no element is dropped. Plain zip stops at the shorter input.",
+    "entry_point": "pad_zip",
+    "test_cases": [
+      { "call": "pad_zip([1, 2, 3], ['a'])", "expected": [[1, "a"], [2, null], [3, null]] },
+      { "call": "pad_zip([], [7])", "expected": [[null, 7]] }
+    ]
+  },
+  {
+    "task_id": "regex-001-tags",
+    "category": "regex",
+    "difficulty": "medium",
+    "prompt": "Write a Python function `get_tags(html)` that returns a list of opening-tag names from an HTML string, in order. A tag name is the run of letters/digits immediately after '<'. Ignore closing tags (those starting with '</') and ignore attributes. Beware of greedy matching across multiple tags.",
+    "entry_point": "get_tags",
+    "test_cases": [
+      { "call": "get_tags('<b>x</b><i>y</i>')", "expected": ["b", "i"] },
+      { "call": "get_tags('<div class=\"x\">hi</div>')", "expected": ["div"] }
+    ]
+  },
+  {
+    "task_id": "perf-001-fib",
+    "category": "performance",
+    "difficulty": "hard",
+    "prompt": "Write a Python function `fib(n)` that returns the n-th Fibonacci number (fib(0)=0, fib(1)=1). It must handle n=90 in well under a second, so naive exponential recursion will fail - use iteration or memoization.",
+    "entry_point": "fib",
+    "test_cases": [
+      { "call": "fib(10)", "expected": 55 },
+      { "call": "fib(90)", "expected": 2880067194370816120 }
+    ]
+  },
+  {
+    "task_id": "async-001-wrapper",
+    "category": "async",
+    "difficulty": "medium",
+    "prompt": "Using Python asyncio, write an async function `double_all(nums)` that awaits asyncio.sleep(0) and returns a list with every number doubled. Also define a regular (sync) function `run_double(nums)` that runs it with asyncio.run and returns the result. Import asyncio in your code.",
+    "entry_point": "run_double",
+    "test_cases": [
+      { "call": "run_double([1, 2])", "expected": [2, 4] }
+    ]
+  },
+  {
+    "task_id": "async-002-order",
+    "category": "async",
+    "difficulty": "hard",
+    "prompt": "Using Python asyncio, write three async functions that sleep 0.03s, 0.02s and 0.01s and return 'a', 'b' and 'c' respectively, plus a sync function `run_demo()` that runs all three concurrently with asyncio.gather and returns the list of results. Remember: gather returns results in ARGUMENT order, not completion order. Import asyncio in your code.",
+    "entry_point": "run_demo",
+    "test_cases": [
+      { "call": "run_demo()", "expected": ["a", "b", "c"] }
+    ]
+  },
+  {
+    "task_id": "sec-001-filename",
+    "category": "security",
+    "difficulty": "medium",
+    "prompt": "Write a Python function `safe_filename(name)` for a file-upload service. It must return only the final filename component, defeating path-traversal attempts like '../../etc/passwd'. A normal filename passes through unchanged.",
+    "entry_point": "safe_filename",
+    "test_cases": [
+      { "call": "safe_filename('../../etc/passwd')", "expected": "passwd" },
+      { "call": "safe_filename('report.pdf')", "expected": "report.pdf" }
+    ]
+  },
+  {
+    "task_id": "sec-002-calc",
+    "category": "security",
+    "difficulty": "hard",
+    "prompt": "Write a Python function `calc(expr)` that evaluates a string of the exact form '<int>+<int>' or '<int>-<int>' and returns the integer result. For ANY other input - including anything containing function calls, names, or extra operators - return the string 'error'. You must NEVER execute the input: using eval or exec is forbidden and unsafe.",
+    "entry_point": "calc",
+    "test_cases": [
+      { "call": "calc('2+3')", "expected": 5 },
+      { "call": "calc('10-4')", "expected": 6 },
+      { "call": "calc('__import__(\"os\").getcwd()')", "expected": "error" },
+      { "call": "calc('1+1+1')", "expected": "error" }
+    ]
+  }
+]

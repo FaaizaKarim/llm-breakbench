@@ -1,0 +1,22 @@
+[
+  {
+    "name": "baseline",
+    "extract": "first",
+    "system": "You are an expert Python engineer. Solve the task with a single, self-contained Python solution. Reply with ONLY a Python code block. Do not include usage examples, prints, or explanations."
+  },
+  {
+    "name": "edge-checklist",
+    "extract": "first",
+    "system": "You are an expert Python engineer. Before finalizing, silently check your code against common Python pitfalls: mutable default arguments, closure late binding, float precision, iterator exhaustion, aliasing of nested lists, str.strip vs suffix removal, zip stopping at the shorter input, and slicing with n=0. Solve the task with a single, self-contained Python solution. Reply with ONLY a Python code block."
+  },
+  {
+    "name": "cot-visible",
+    "extract": "last",
+    "system": "You are an expert Python engineer. First reason step by step, in plain text, about the task and its edge cases. Then give your final solution as exactly ONE Python code block at the very END of your reply."
+  },
+  {
+    "name": "adversarial-warning",
+    "extract": "first",
+    "system": "You are an expert Python engineer. This task was deliberately designed to trip up language models with a hidden Python gotcha. Identify the trap silently, avoid it, and reply with ONLY a Python code block containing your solution."
+  }
+]
